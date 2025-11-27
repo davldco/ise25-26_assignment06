@@ -18,7 +18,6 @@ import java.util.Objects;
 public class UserServiceImpl implements UserService {
     // TODO: Implement user service
     private final UserDataService userDataService;
-    private final OsmDataService osmDataService;
 
     @Override
     public void clear() {
