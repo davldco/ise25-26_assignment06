@@ -1,13 +1,74 @@
 package de.seuhd.campuscoffee.domain.impl;
 
+import de.seuhd.campuscoffee.domain.model.CampusType;
+import de.seuhd.campuscoffee.domain.model.OsmNode;
+import de.seuhd.campuscoffee.domain.model.Pos;
+import de.seuhd.campuscoffee.domain.model.User;
+import de.seuhd.campuscoffee.domain.ports.OsmDataService;
+import de.seuhd.campuscoffee.domain.ports.PosDataService;
+import de.seuhd.campuscoffee.domain.ports.UserDataService;
 import de.seuhd.campuscoffee.domain.ports.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     // TODO: Implement user service
+    private final UserDataService userDataService;
+    private final OsmDataService osmDataService;
+
+    @Override
+    public void clear() {
+        log.warn("Clearing all User data");
+        userDataService.clear();
+    }
+
+    @Override
+    public @NonNull List<User> getAll() {
+        log.debug("Retrieving all Users");
+        return userDataService.getAll();
+    }
+
+    @Override
+    public @NonNull User getById(@NonNull Long id) {
+        log.debug("Retrieving User with ID: {}", id);
+        return userDataService.getById(id);
+    }
+
+    @Override
+    public @NonNull User getByName(@NonNull String name) {
+        log.debug("Retrieving User with name: {}", name);
+        return userDataService.getByName(name);
+    }
+
+    @Override
+    public @NonNull User upsert(@NonNull User user) {
+        if (user.id() == null) {
+            // create a new User
+            log.info("Creating new User: {}", user.firstName());
+        } else {
+            // update an existing User
+            log.info("Updating User with ID: {}", user.id());
+            // User ID must be set
+            Objects.requireNonNull(user.id());
+            // POS must exist in the database before the update
+            userDataService.getById(user.id());
+        }
+        return upsert(user);
+    }
+
+    @Override
+    public void delete(@NonNull Long id) {
+        log.info("Trying to delete User with ID: {}", id);
+        userDataService.delete(id);
+        log.info("Deleted User with ID: {}", id);
+    }
+
 }

@@ -1,5 +1,24 @@
 package de.seuhd.campuscoffee.domain.ports;
 
+import de.seuhd.campuscoffee.domain.model.Pos;
+import de.seuhd.campuscoffee.domain.model.User;
+import org.jspecify.annotations.NonNull;
+
+import java.util.List;
+
 public interface UserService {
     //TODO: Define user service interface
+    void clear();
+
+    @NonNull List<User> getAll();
+
+    @NonNull User getById(@NonNull Long id);
+
+    @NonNull User getByName(@NonNull String name);
+
+    @NonNull User upsert(@NonNull User user);
+
+    void delete(@NonNull Long id);
+
+
 }
