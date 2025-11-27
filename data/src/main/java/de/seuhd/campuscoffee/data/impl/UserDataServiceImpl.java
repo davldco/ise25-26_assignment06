@@ -4,6 +4,18 @@ import de.seuhd.campuscoffee.domain.ports.UserDataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import io.micrometer.common.lang.NonNull;
+
+import de.seuhd.campuscoffee.domain.model.User;
+import de.seuhd.campuscoffee.data.persistence.UserEntity;
+import de.seuhd.campuscoffee.data.persistence.UserRepository;
+import de.seuhd.campuscoffee.data.mapper.UserEntityMapper;
+import org.springframework.dao.DataIntegrityViolationException;
+import de.seuhd.campuscoffee.domain.exceptions.DuplicationException;
+import de.seuhd.campuscoffee.data.util.ConstraintViolationChecker;
+import de.seuhd.campuscoffee.domain.exceptions.NotFoundException;
+
 /**
  * Implementation of the user data service that the domain layer provides as a port.
  * This layer is responsible for data access and persistence.
@@ -43,7 +55,7 @@ class UserDataServiceImpl implements UserDataService {
 
     @Override
     @NonNull
-    public User getByLoginName(@NonNull String loginName) {
+    public User getByName(@NonNull String loginName) {
         return userRepository.findByLoginName(loginName)
                 .map(userEntityMapper::fromEntity)
                 .orElseThrow(() -> new NotFoundException(User.class, UserEntity.LOGIN_NAME_COLUMN, loginName));

@@ -2,6 +2,7 @@ package de.seuhd.campuscoffee.domain.ports;
 
 import de.seuhd.campuscoffee.domain.model.User;
 import io.micrometer.common.lang.NonNull;
+import de.seuhd.campuscoffee.domain.exceptions.NotFoundException;
 
 import java.util.List;
 

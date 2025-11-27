@@ -1,6 +1,5 @@
 package de.seuhd.campuscoffee.api.controller;
 
-import de.seuhd.campuscoffee.api.dtos.PosDto;
 import de.seuhd.campuscoffee.api.dtos.UserDto;
 import de.seuhd.campuscoffee.api.exceptions.ErrorResponse;
 import de.seuhd.campuscoffee.api.mapper.UserDtoMapper;
@@ -139,7 +138,7 @@ public class UserController {
     public ResponseEntity<UserDto> create(
             @RequestBody @Valid UserDto userDto) {
 
-        PosDto created = upsert(userDto);
+        UserDto created = upsert(userDto);
         return ResponseEntity
                 .created(getLocation(created.id()))
                 .body(created);
@@ -209,5 +208,14 @@ public class UserController {
             @PathVariable Long id) {
         userService.delete(id); // throws NotFoundException if no POS with the provided ID exists
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Helper to map, persist and return the saved User as DTO.
+     */
+    private UserDto upsert(UserDto userDto) {
+        var domain = userDtoMapper.toDomain(userDto);
+        var saved = userService.upsert(domain);
+        return userDtoMapper.fromDomain(saved);
     }
 }

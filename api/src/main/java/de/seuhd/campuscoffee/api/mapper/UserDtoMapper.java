@@ -10,5 +10,5 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 public interface UserDtoMapper {
     //TODO: Implement user DTO mapper
     UserDto fromDomain(User source);
-    User toDomain(User source);
+    User toDomain(UserDto source);
 }
