@@ -1,7 +1,6 @@
 package de.seuhd.campuscoffee.domain.impl;
 
 import de.seuhd.campuscoffee.domain.model.User;
-import de.seuhd.campuscoffee.domain.ports.OsmDataService;
 import de.seuhd.campuscoffee.domain.ports.UserDataService;
 import de.seuhd.campuscoffee.domain.ports.UserService;
 import lombok.RequiredArgsConstructor;
