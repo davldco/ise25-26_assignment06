@@ -1,11 +1,7 @@
 package de.seuhd.campuscoffee.domain.impl;
 
-import de.seuhd.campuscoffee.domain.model.CampusType;
-import de.seuhd.campuscoffee.domain.model.OsmNode;
-import de.seuhd.campuscoffee.domain.model.Pos;
 import de.seuhd.campuscoffee.domain.model.User;
 import de.seuhd.campuscoffee.domain.ports.OsmDataService;
-import de.seuhd.campuscoffee.domain.ports.PosDataService;
 import de.seuhd.campuscoffee.domain.ports.UserDataService;
 import de.seuhd.campuscoffee.domain.ports.UserService;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +48,7 @@ public class UserServiceImpl implements UserService {
     public @NonNull User upsert(@NonNull User user) {
         if (user.id() == null) {
             // create a new User
-            log.info("Creating new User: {}", user.firstName());
+            log.info("Creating new User: {}", user.loginName());
         } else {
             // update an existing User
             log.info("Updating User with ID: {}", user.id());
@@ -61,7 +57,7 @@ public class UserServiceImpl implements UserService {
             // POS must exist in the database before the update
             userDataService.getById(user.id());
         }
-        return upsert(user);
+        return userDataService.upsert(user);
     }
 
     @Override

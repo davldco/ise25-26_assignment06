@@ -1,6 +1,5 @@
 package de.seuhd.campuscoffee.domain.ports;
 
-import de.seuhd.campuscoffee.domain.model.Pos;
 import de.seuhd.campuscoffee.domain.model.User;
 import org.jspecify.annotations.NonNull;
 
